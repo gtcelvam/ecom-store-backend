@@ -13,4 +13,13 @@ const getErrorMessage = (res, message = null) => {
   res.status(404).json({ message: response });
 };
 
-module.exports = { getSanitizedCreateProduct, getErrorMessage };
+const getSuccessMessage = (res, message = "") => {
+  const response = message || "Success";
+  res.status(200).json({ message: response });
+};
+
+module.exports = {
+  getSanitizedCreateProduct,
+  getErrorMessage,
+  getSuccessMessage,
+};
