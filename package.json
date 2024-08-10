@@ -3,15 +3,25 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "dev": "nodeman server.js"
+    "start": "netlify dev",
+    "dev": "nodemon local-server.js",
+    "build": "echo 'No build step yet'",
+    "deploy": "netlify deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gtcelvam/ecom-store-backend"
   },
   "author": "ts",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "axios": "^1.7.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "serverless-http": "^3.2.0",
+    "shopify-api-node": "^3.13.4"
   }
 }
