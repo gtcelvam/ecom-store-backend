@@ -14,7 +14,7 @@ app.use(cors());
 
 //routes
 router.get("/hello", (req, res) => res.send("Hello World!"));
-app.use("/api", router);
-app.use("/api", ProductRoute);
+app.use("/.netlify/functions/api", router);
+app.use("/.netlify/functions/api", ProductRoute);
 
 module.exports.handler = serverless(app);
