@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const serverless = require("serverless-http");
 const app = express();
+const router = app.Router();
 const cors = require("cors");
 
 //Local depdencies
@@ -12,6 +13,8 @@ app.use(express.json());
 app.use(cors());
 
 //routes
+router.get("/hello", (req, res) => res.send("Hello World!"));
+app.use("/api", router);
 app.use("/api", ProductRoute);
 
 module.exports.handler = serverless(app);
