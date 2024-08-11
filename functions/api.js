@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const serverless = require("serverless-http");
 const app = express();
-const router = app.Router();
+const router = express.Router();
 const cors = require("cors");
 
 //Local depdencies
