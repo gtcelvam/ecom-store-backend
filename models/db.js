@@ -13,7 +13,7 @@ const {
   CREATE_USER_TABLE_QUERY,
 } = require("../utils/sqlQueries");
 
-const sslCertificate = DB_CERTIFICATE.toString();
+const sslCertificate = fs.readFileSync("./ca.pem").toString();
 
 const connection = mysql.createConnection({
   uri: DB_CON_URI,
