@@ -1,5 +1,6 @@
 const mysql = require("mysql2");
 const fs = require("fs");
+const path = require("path");
 const {
   DB_HOST_URL,
   DB_USERNAME,
@@ -13,7 +14,9 @@ const {
   CREATE_USER_TABLE_QUERY,
 } = require("../utils/sqlQueries");
 
-const sslCertificate = fs.readFileSync("./ca.pem").toString();
+const sslCertificate = fs
+  .readFileSync(path.join(__dirname, "../ca.pem"))
+  .toString();
 
 const connection = mysql.createConnection({
   uri: DB_CON_URI,
