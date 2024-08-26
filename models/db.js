@@ -15,7 +15,7 @@ const {
 } = require("../utils/sqlQueries");
 
 const sslCertificate = fs
-  .readFileSync(path.join(__dirname, "../ca.pem"))
+  .readFileSync(path.join(process.cwd(), "ca.pem"))
   .toString();
 
 const connection = mysql.createConnection({
