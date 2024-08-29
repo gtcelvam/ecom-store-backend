@@ -28,6 +28,8 @@ const connection = mysql.createConnection({
 });
 
 connection.connect((err) => {
+  console.log("URI : ", DB_CON_URI);
+  console.log("ssl : ", sslCertificate);
   if (err) return console.log("DB Connection Error!!!", JSON.stringify(err));
 
   connection.query(CHECK_IF_USER_TABLE_EXIST_QUERY, (err, results) => {
