@@ -18,13 +18,13 @@ const sslCertificate = DB_CERTIFICATE;
 
 const connection = mysql.createConnection({
   uri: DB_CON_URI,
-  user: DB_USERNAME,
-  password: DB_PASSWORD,
-  database: DB_NAME,
-  ssl: {
-    ca: sslCertificate,
-    rejectUnauthorized: false, // Enable SSL for a secure connection
-  },
+  // user: DB_USERNAME,
+  // password: DB_PASSWORD,
+  // database: DB_NAME,
+  // ssl: {
+  //   ca: sslCertificate,
+  //   rejectUnauthorized: false, // Enable SSL for a secure connection
+  // },
 });
 
 connection.connect((err) => {
