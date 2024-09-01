@@ -14,7 +14,7 @@ const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PORT_NUM = process.env.DB_PORT_NUM;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_CERTIFICATE = process.env.DB_CERTIFICATE.trim();
-const DB_CON_URI = `mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST_URL}:${DB_PORT_NUM}/${DB_NAME}?ssl-mode=REQUIRED`;
+const DB_CON_URI = `mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST_URL}:${DB_PORT_NUM}/${DB_NAME}`;
 
 //Netlify
 const NETLIFY_END_POINT = "/.netlify/functions/api";
