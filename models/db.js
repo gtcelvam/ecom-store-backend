@@ -23,7 +23,7 @@ const connection = mysql.createConnection({
   database: DB_NAME,
   ssl: {
     ca: sslCertificate,
-    rejectUnauthorized: true, // Enable SSL for a secure connection
+    rejectUnauthorized: false, // Enable SSL for a secure connection
   },
 });
 
