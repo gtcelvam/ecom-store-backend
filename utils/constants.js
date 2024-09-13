@@ -1,5 +1,8 @@
 const PORT_NUM = process.env.port || process.env.PORT_NUM;
 
+//AUTH Tokens
+const JWT_AUTH_TOKEN = process.env.JWT_AUTH_TOKEN;
+
 //Shopify Configs
 const SHOPIFY_API_KEY = process.env.SHOPIFY_API_KEY;
 const SHOPIFY_SECRET_KEY = process.env.SHOPIFY_SECRET_KEY;
@@ -19,8 +22,37 @@ const DB_CON_URI = `mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST_URL}:${DB_PO
 //Netlify
 const NETLIFY_END_POINT = "/.netlify/functions/api";
 
+//Status Codes
+const STATUS_CODES = {
+  Success: {
+    code: 200,
+    message: "Success",
+  },
+  Not_Modified: {
+    code: 304,
+    message: "Not Modified",
+  },
+  Bad_Request: {
+    code: 400,
+    message: "Authorization Token Required",
+  },
+  UnAuthorized: {
+    code: 401,
+    message: "Unauthorized - Invalid or expired token.",
+  },
+  Forbidden: {
+    code: 403,
+    message: "Forbidden - You do not have permission to access this resource.",
+  },
+  Not_Found: {
+    code: 404,
+    message: "Not Found",
+  },
+};
+
 module.exports = {
   PORT_NUM,
+  JWT_AUTH_TOKEN,
   SHOPIFY_API_KEY,
   SHOPIFY_SECRET_KEY,
   SHOPIFY_API_TOKEN,
@@ -34,4 +66,5 @@ module.exports = {
   DB_CON_URI,
   DB_CERTIFICATE,
   NETLIFY_END_POINT,
+  STATUS_CODES,
 };

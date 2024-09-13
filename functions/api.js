@@ -25,5 +25,4 @@ app.use(NETLIFY_END_POINT, ProductRoute);
 app.use(NETLIFY_END_POINT, CollectionRoute);
 app.use(NETLIFY_END_POINT, UserRoute);
 
-handleDBConnection();
 module.exports.handler = serverless(app);
