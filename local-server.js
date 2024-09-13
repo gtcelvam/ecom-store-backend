@@ -24,5 +24,4 @@ app.use("/api", UserRoute);
 // Start the server
 app.listen(PORT_NUM, () => {
   console.log(`Server running locally on port ${PORT_NUM}`);
-  handleDBConnection();
 });

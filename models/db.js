@@ -1,4 +1,4 @@
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 const fs = require("fs");
 const path = require("path");
 const {
@@ -13,35 +13,36 @@ const {
   CHECK_IF_USER_TABLE_EXIST_QUERY,
   CREATE_USER_TABLE_QUERY,
 } = require("../utils/sqlQueries");
+const { GET_ALL_USERS, INSERT_NEW_USER } = require("../utils/sqlQueries/users");
 
 const sslCertificate = DB_CERTIFICATE;
 
-const connection = mysql.createConnection({
-  uri: DB_CON_URI,
-  user: DB_USERNAME,
-  password: DB_PASSWORD,
-  database: DB_NAME,
-  ssl: {
-    ca: sslCertificate,
-    rejectUnauthorized: false, // Enable SSL for a secure connection
-  },
-});
-
-connection.connect((err) => {
-  if (err) return console.log("DB Connection Error!!!", JSON.stringify(err));
-
-  connection.query(CHECK_IF_USER_TABLE_EXIST_QUERY, (err, results) => {
-    if (err) console.log("Check table exits error : ", err);
-
-    if (!Boolean(results.length)) {
-      connection.query(CREATE_USER_TABLE_QUERY, (err, results) => {
-        if (err) console.log("Create user table error : ", err);
-        console.log("User table created successfully!!!");
-      });
-    }
+const handleDBConnection = async () => {
+  const connection = await mysql.createConnection({
+    uri: DB_CON_URI,
+    user: DB_USERNAME,
+    password: DB_PASSWORD,
+    database: DB_NAME,
+    ssl: {
+      ca: sslCertificate,
+      rejectUnauthorized: false, // Enable SSL for a secure connection
+    },
   });
-});
 
-const handleDBConnection = () => connection;
+  const CheckIfUserTableAvailable = async () => {
+    try {
+      const results = await connection.query(CHECK_IF_USER_TABLE_EXIST_QUERY);
+      if (!Boolean(results.length)) {
+        connection.query(CREATE_USER_TABLE_QUERY);
+        console.log("User table created successfully!!!");
+      }
+    } catch (error) {
+      console.log("CheckIfUserTableAvailable Error : ", error);
+    }
+  };
 
-module.exports = { handleDBConnection, connection };
+  CheckIfUserTableAvailable();
+  return connection;
+};
+
+module.exports = { handleDBConnection };

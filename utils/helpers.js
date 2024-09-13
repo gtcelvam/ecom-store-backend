@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 const getSanitizedCreateProduct = (payload) => {
   return {
     title: payload?.title.trim() || "",
@@ -36,14 +38,36 @@ const getSanitizedAddToCollection = (payload) => {
   return null;
 };
 
-const getErrorMessage = (res, message = null) => {
+const getErrorMessage = (res, message = null, code = 404) => {
   const response = message || "Something Went Wrong!";
-  res.status(404).json({ message: response });
+  res.status(code).json({ message: response, success: false });
 };
 
 const getSuccessMessage = (res, message = "") => {
   const response = message || "Success";
-  res.status(200).json({ message: response });
+  res.status(200).json({ data: response, success: true });
+};
+
+const getAuthSuccessMessage = (res, message = "", token = null) => {
+  if (!token) return null;
+  const response = message || "Success";
+  res.status(200).json({ data: response, success: true, token });
+};
+
+const handleEncryptPassword = async (password = null) => {
+  if (!password) return null;
+  try {
+    const saltRound = 10;
+    const encryptedPassword = await bcrypt.hash(password, saltRound);
+    return encryptedPassword;
+  } catch (error) {
+    console.log("Handle Encrypt Password Error");
+  }
+};
+
+const handleCheckPassword = async (password, encryptedPassword) => {
+  const isMatching = await bcrypt.compare(password, encryptedPassword);
+  return isMatching;
 };
 
 module.exports = {
@@ -53,4 +77,7 @@ module.exports = {
   getSanitizedAddToCollection,
   getErrorMessage,
   getSuccessMessage,
+  getAuthSuccessMessage,
+  handleEncryptPassword,
+  handleCheckPassword,
 };
