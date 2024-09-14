@@ -36,17 +36,21 @@ const verifyToken = (req, res, next) => {
 
 const verifyLoginToken = (req, res, next) => {
   try {
-    const token = req.headers["authorization"];
-    if (!token)
+    const jwtToken = req.headers["authorization"];
+    if (!jwtToken)
       return res
         .status(Bad_Request.code)
         .json({ message: Bad_Request.message });
+    const token = jwtToken.split(" ")[1];
     jwt.verify(token, JWT_AUTH_TOKEN, (err, decode) => {
       if (err)
         return res
           .status(UnAuthorized.code)
           .json({ message: UnAuthorized.message });
-      if (decode.email === req.body.email) return next();
+      if (decode.email) {
+        req.body.email = decode.email;
+        return next();
+      }
       req.status(Forbidden.code).json({ message: Forbidden.message });
     });
   } catch (error) {

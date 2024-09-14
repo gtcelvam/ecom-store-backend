@@ -1,7 +1,8 @@
 const UserRoute = require("express").Router();
 const UserController = require("../../controllers/user");
-const { verifyToken } = require("../../utils/auth");
+const { verifyToken, verifyLoginToken } = require("../../utils/auth");
 
+UserRoute.get("/user", verifyLoginToken, UserController.getUserDetails);
 UserRoute.get("/user/get-all-users", verifyToken, UserController.getAllUsers);
 UserRoute.get("/user/:id", verifyToken, UserController.getUserById);
 UserRoute.post("/user", UserController.addNewUser);
