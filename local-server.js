@@ -4,7 +4,6 @@ const app = express();
 const cors = require("cors");
 
 //Local depdencies
-const { handleDBConnection } = require("./models/db");
 const { PORT_NUM } = require("./utils/constants");
 const { ProductRoute } = require("./routes/shopify/products/route");
 const {
