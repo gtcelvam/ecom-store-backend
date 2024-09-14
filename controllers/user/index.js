@@ -29,6 +29,20 @@ class UserDB {
     this.conn = async () => await handleDBConnection();
   }
 
+  getUserDetails = async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (email) {
+        const userData = await this.getUserByEmail(email);
+        getSuccessMessage(res, userData);
+        return;
+      }
+      getErrorMessage(res);
+    } catch (error) {
+      getErrorMessage(res);
+    }
+  };
+
   getAllUsers = async (req, res) => {
     try {
       const connection = await this.conn();
