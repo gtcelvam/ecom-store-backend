@@ -1,6 +1,6 @@
 const GET_ALL_USERS = `SELECT * FROM users`;
 const GET_USER_BY_ID = `SELECT * FROM users WHERE id = ?`;
-const GET_USER_BY_EMAIL = `SELECT id,name,email,mobile FROM users WHERE email = ?`;
+const GET_USER_BY_EMAIL = `SELECT * FROM users WHERE email = ?`;
 const INSERT_NEW_USER = `INSERT INTO users SET ?`;
 const UPDATE_USER_BY_ID = `UPDATE users SET ? WHERE id = ?`;
 const DELETE_USER_BY_ID = `DELETE FROM users WHERE id = ?`;
