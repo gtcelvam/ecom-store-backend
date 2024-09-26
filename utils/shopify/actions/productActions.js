@@ -12,7 +12,7 @@ const createProduct = async (productData) => {
 
 const getProduct = async () => {
   try {
-    const getProductData = await shopify.product.list({ limit: 5 });
+    const getProductData = await shopify.product.list({ limit: 10 });
     return getProductData;
   } catch (error) {
     console.log("GetProduct Error : ", error);
