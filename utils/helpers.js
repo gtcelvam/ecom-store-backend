@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
 
 const getSanitizedCreateProduct = (payload) => {
   return {
@@ -70,6 +71,8 @@ const handleCheckPassword = async (password, encryptedPassword) => {
   return isMatching;
 };
 
+const handleGenerateUUID = () => uuidv4();
+
 module.exports = {
   getSanitizedCreateProduct,
   getSanitizedCreateCollection,
@@ -80,4 +83,5 @@ module.exports = {
   getAuthSuccessMessage,
   handleEncryptPassword,
   handleCheckPassword,
+  handleGenerateUUID,
 };

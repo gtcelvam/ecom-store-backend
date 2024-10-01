@@ -1,5 +1,7 @@
 #Folders
 /node_modules
+/routes/sqlRoute
+/controllers/sql
 
 #Dependencies
 package-lock.json
