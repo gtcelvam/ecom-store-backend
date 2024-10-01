@@ -10,6 +10,8 @@ const {
   CollectionRoute,
 } = require("./routes/shopify/collections/collectionRoute");
 const UserRoute = require("./routes/userRoute");
+const CartRoute = require("./routes/cartRoute");
+const SQLRoute = require("./routes/sqlRoute");
 
 //configs
 app.use(express.json());
@@ -19,6 +21,8 @@ app.use(cors());
 app.use("/api", ProductRoute);
 app.use("/api", CollectionRoute);
 app.use("/api", UserRoute);
+app.use("/api", CartRoute);
+app.use("/api", SQLRoute);
 
 // Start the server
 app.listen(PORT_NUM, () => {

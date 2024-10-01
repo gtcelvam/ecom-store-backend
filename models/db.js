@@ -12,8 +12,9 @@ const {
 const {
   CHECK_IF_USER_TABLE_EXIST_QUERY,
   CREATE_USER_TABLE_QUERY,
+  CHECK_IF_CART_TABLE_EXIST_QUERY,
+  CREATE_CART_TABLE_QUERY,
 } = require("../utils/sqlQueries");
-const { GET_ALL_USERS, INSERT_NEW_USER } = require("../utils/sqlQueries/users");
 
 const sslCertificate = DB_CERTIFICATE;
 
@@ -31,11 +32,31 @@ const handleDBConnection = async () => {
 
   const CheckIfUserTableAvailable = async () => {
     try {
-      const results = await connection.query(CHECK_IF_USER_TABLE_EXIST_QUERY);
-      if (!Boolean(results.length)) {
-        connection.query(CREATE_USER_TABLE_QUERY);
-        console.log("User table created successfully!!!");
-      }
+      const userTable = connection.query(CHECK_IF_USER_TABLE_EXIST_QUERY);
+      const cartTable = connection.query(CHECK_IF_CART_TABLE_EXIST_QUERY);
+
+      const tableQueryList = {
+        0: {
+          check: userTable,
+          createQuery: CREATE_USER_TABLE_QUERY,
+        },
+        1: {
+          check: cartTable,
+          createQuery: CREATE_CART_TABLE_QUERY,
+        },
+      };
+
+      const tableCountResult = await Promise.all([
+        tableQueryList[0].check,
+        tableQueryList[1].check,
+      ]);
+
+      tableCountResult.forEach((item, index) => {
+        if (!Boolean(item[0].length)) {
+          connection.query(tableQueryList[index].createQuery);
+          console.log("Table created successfully!!!");
+        }
+      });
     } catch (error) {
       console.log("CheckIfUserTableAvailable Error : ", error);
     }
@@ -44,5 +65,6 @@ const handleDBConnection = async () => {
   CheckIfUserTableAvailable();
   return connection;
 };
+handleDBConnection();
 
 module.exports = { handleDBConnection };
