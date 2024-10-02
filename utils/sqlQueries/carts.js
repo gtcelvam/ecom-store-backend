@@ -2,6 +2,7 @@ const INSERT_CART_QUERY =
   "INSERT INTO carts (id,userId,productId) VALUES (?,?,?)";
 const SELECT_CART_BY_USERID = "SELECT productId FROM carts WHERE userId = ?";
 const SELECT_ALL_CART_QUERY = "SELECT * FROM carts";
+const SELECT_ALL_FROM_CART_BY_USERID = "SELECT * FROM carts WHERE userId = ?";
 const UPDATE_USER_WITH_CART = `
       UPDATE users 
       SET cartId = ? 
@@ -17,6 +18,7 @@ module.exports = {
   INSERT_CART_QUERY,
   SELECT_CART_BY_USERID,
   SELECT_ALL_CART_QUERY,
+  SELECT_ALL_FROM_CART_BY_USERID,
   UPDATE_USER_WITH_CART,
   UPDATE_PRODUCT_LIST_IN_CART,
 };

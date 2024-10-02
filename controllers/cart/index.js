@@ -5,12 +5,17 @@ const {
   handleGenerateUUID,
 } = require("../../utils/helpers");
 const {
+  getProductListByIds,
+  getProductById,
+} = require("../../utils/shopify/actions/productActions");
+const {
   INSERT_CART_QUERY,
   SELECT_ALL_CART_QUERY,
   UPDATE_USER_WITH_CART,
   CHECK_IF_CART_AVAILABLE_BY_USER,
   SELECT_CART_BY_USERID,
   UPDATE_PRODUCT_LIST_IN_CART,
+  SELECT_ALL_FROM_CART_BY_USERID,
 } = require("../../utils/sqlQueries/carts");
 
 class CartDB {
@@ -39,7 +44,8 @@ class CartDB {
           userId,
           updatedProductList
         );
-        getSuccessMessage(res, updatedResult);
+        const productData = await getProductById(productId[0]);
+        getSuccessMessage(res, productData);
         return;
       }
 
@@ -51,9 +57,26 @@ class CartDB {
 
       // Commit the transaction
       await connection.commit();
-      getSuccessMessage(res, isCartAvailable);
+      const productData = await getProductById(productId[0]);
+      getSuccessMessage(res, productData);
     } catch (error) {
       await connection.rollback();
+      getErrorMessage(res, error);
+    } finally {
+      connection.end();
+    }
+  };
+
+  getCartDetailsById = async (req, res) => {
+    const connection = await this.conn();
+    const userId = req.params.id;
+    try {
+      const result = await connection.query(SELECT_CART_BY_USERID, [userId]);
+      const productIdList = result[0][0]?.productId || [];
+      const productListResult = await getProductListByIds(productIdList);
+      getSuccessMessage(res, productListResult);
+    } catch (error) {
+      console.log("Get Cart Details By User Id Error : ", error);
       getErrorMessage(res, error);
     } finally {
       connection.end();
