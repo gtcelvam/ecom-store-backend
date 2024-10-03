@@ -130,7 +130,7 @@ class CartDB {
         (item) => item != productId
       );
       await this.updateProductIdListInCart(userId, updatedProductList);
-      const result = await getProductListByIds(productIdList);
+      const result = await getProductListByIds(updatedProductList);
       getSuccessMessage(res, result);
     } catch (error) {
       console.log("Delete Product id from cart error : ", error);
