@@ -119,6 +119,24 @@ class CartDB {
       return new Error(error);
     }
   };
+
+  deleteProductIdFromCart = async (req, res) => {
+    const connection = await this.conn();
+    try {
+      const { userId, productId } = req.body;
+      const [data] = await connection.query(SELECT_CART_BY_USERID, [userId]);
+      const productIdList = data[0]?.productId;
+      const updatedProductList = productIdList.filter(
+        (item) => item != productId
+      );
+      await this.updateProductIdListInCart(userId, updatedProductList);
+      const result = await getProductListByIds(productIdList);
+      getSuccessMessage(res, result);
+    } catch (error) {
+      console.log("Delete Product id from cart error : ", error);
+      getErrorMessage(res, error);
+    }
+  };
 }
 
 const cartConnection = new CartDB();
