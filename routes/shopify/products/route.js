@@ -10,6 +10,7 @@ const {
   deleteProduct,
   updateProductById,
   deleteAllProduct,
+  getProductById,
 } = require("../../../utils/shopify/actions/productActions");
 
 //create product
@@ -32,6 +33,18 @@ ProductRoute.get("/products", async (req, res) => {
   } catch (error) {
     console.log("Product Route Get Error : ", error);
     getErrorMessage(res);
+  }
+});
+
+//get product by id
+ProductRoute.get("/products/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await getProductById(id);
+    getSuccessMessage(res, result);
+  } catch (error) {
+    console.log("Product By Id Route Get Error : ", error);
+    getErrorMessage(res, error);
   }
 });
 
