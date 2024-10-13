@@ -13,6 +13,7 @@ const {
 } = require("../routes/shopify/collections/collectionRoute");
 const UserRoute = require("../routes/userRoute");
 const CartRoute = require("../routes/cartRoute");
+const PaymentRoute = require("../routes/paymentRoute");
 
 //configs
 app.use(express.json());
@@ -25,5 +26,6 @@ app.use(NETLIFY_END_POINT, ProductRoute);
 app.use(NETLIFY_END_POINT, CollectionRoute);
 app.use(NETLIFY_END_POINT, UserRoute);
 app.use(NETLIFY_END_POINT, CartRoute);
+app.use(NETLIFY_END_POINT, PaymentRoute);
 
 module.exports.handler = serverless(app);

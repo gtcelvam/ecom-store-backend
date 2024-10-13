@@ -12,6 +12,7 @@ const {
 const UserRoute = require("./routes/userRoute");
 const CartRoute = require("./routes/cartRoute");
 const SQLRoute = require("./routes/sqlRoute");
+const PaymentRoute = require("./routes/paymentRoute");
 
 //configs
 app.use(express.json());
@@ -23,6 +24,7 @@ app.use("/api", CollectionRoute);
 app.use("/api", UserRoute);
 app.use("/api", CartRoute);
 app.use("/api", SQLRoute);
+app.use("/api", PaymentRoute);
 
 // Start the server
 app.listen(PORT_NUM, () => {
