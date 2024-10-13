@@ -16,6 +16,7 @@ const {
   SELECT_CART_BY_USERID,
   UPDATE_PRODUCT_LIST_IN_CART,
   SELECT_ALL_FROM_CART_BY_USERID,
+  DELETE_PRODUCT_ID_FROM_JSON,
 } = require("../../utils/sqlQueries/carts");
 
 class CartDB {
@@ -124,14 +125,15 @@ class CartDB {
     const connection = await this.conn();
     try {
       const { userId, productId } = req.body;
-      const [data] = await connection.query(SELECT_CART_BY_USERID, [userId]);
-      const productIdList = data[0]?.productId;
-      const updatedProductList = productIdList.filter(
-        (item) => item != productId
-      );
-      await this.updateProductIdListInCart(userId, updatedProductList);
-      const result = await getProductListByIds(updatedProductList);
-      getSuccessMessage(res, result);
+      const [data] = await connection.query(DELETE_PRODUCT_ID_FROM_JSON, [
+        productId,
+        userId,
+        productId,
+      ]);
+
+      // await this.updateProductIdListInCart(userId, updatedProductList);
+      // const result = await getProductListByIds(updatedProductList);
+      getSuccessMessage(res, data);
     } catch (error) {
       console.log("Delete Product id from cart error : ", error);
       getErrorMessage(res, error);

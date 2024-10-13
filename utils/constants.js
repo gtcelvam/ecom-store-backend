@@ -22,6 +22,11 @@ const DB_CON_URI = `mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST_URL}:${DB_PO
 //Netlify
 const NETLIFY_END_POINT = "/.netlify/functions/api";
 
+const RAZORPAY_CREDENTIALS = {
+  Id: process.env.RAZOR_PAY_ID,
+  key: process.env.RAZOR_PAY_KEY,
+};
+
 //Status Codes
 const STATUS_CODES = {
   Success: {
@@ -67,4 +72,5 @@ module.exports = {
   DB_CERTIFICATE,
   NETLIFY_END_POINT,
   STATUS_CODES,
+  RAZORPAY_CREDENTIALS,
 };
