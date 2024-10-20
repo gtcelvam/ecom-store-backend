@@ -13,6 +13,7 @@ const UserRoute = require("./routes/userRoute");
 const CartRoute = require("./routes/cartRoute");
 const SQLRoute = require("./routes/sqlRoute");
 const PaymentRoute = require("./routes/paymentRoute");
+const OrderRoute = require("./routes/shopify/orders/orderRoute");
 
 //configs
 app.use(express.json());
@@ -25,6 +26,7 @@ app.use("/api", UserRoute);
 app.use("/api", CartRoute);
 app.use("/api", SQLRoute);
 app.use("/api", PaymentRoute);
+app.use("/api", OrderRoute);
 
 // Start the server
 app.listen(PORT_NUM, () => {
