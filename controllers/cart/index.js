@@ -1,4 +1,5 @@
 const { handleDBConnection } = require("../../models/db");
+const { getCartDetailsByUserId } = require("../../utils/actions/cart");
 const {
   getErrorMessage,
   getSuccessMessage,
@@ -17,6 +18,7 @@ const {
   UPDATE_PRODUCT_LIST_IN_CART,
   SELECT_ALL_FROM_CART_BY_USERID,
   DELETE_PRODUCT_ID_FROM_JSON,
+  CLEAR_CART_BY_USERID,
 } = require("../../utils/sqlQueries/carts");
 
 class CartDB {
@@ -125,17 +127,31 @@ class CartDB {
     const connection = await this.conn();
     try {
       const { userId, productId } = req.body;
-      const [data] = await connection.query(DELETE_PRODUCT_ID_FROM_JSON, [
+      await connection.query(DELETE_PRODUCT_ID_FROM_JSON, [
         productId,
         userId,
         productId,
       ]);
 
-      // await this.updateProductIdListInCart(userId, updatedProductList);
-      // const result = await getProductListByIds(updatedProductList);
+      const [data] = await getCartDetailsByUserId(connection, userId);
       getSuccessMessage(res, data);
     } catch (error) {
       console.log("Delete Product id from cart error : ", error);
+      getErrorMessage(res, error);
+    }
+  };
+
+  clearCartByUserId = async (req, res) => {
+    const connection = await this.conn();
+    try {
+      const userId = req.params.id;
+      const [data] = await connection.query(CLEAR_CART_BY_USERID, [
+        JSON.stringify([]),
+        userId,
+      ]);
+      getSuccessMessage(res, []);
+    } catch (error) {
+      console.log("Clear Cart By User Id Error : ", error);
       getErrorMessage(res, error);
     }
   };
