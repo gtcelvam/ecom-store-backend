@@ -12,11 +12,13 @@ const { RAZORPAY_CREDENTIALS } = require("../../utils/constants");
 PaymentRoute.post("/payment/create-order", verifyToken, async (req, res) => {
   try {
     const amount = req.body.amount;
+    const orderId = req.body.order.id;
     const options = {
       amount: amount * 100,
       currency: "INR",
-      receipt: "order_rcptid_" + handleGenerateUUID().substring(0, 5),
+      receipt: "order_rcptid_" + orderId,
     };
+
     const order = await razoryPayInstance.orders.create(options);
     getSuccessMessage(res, order);
   } catch (error) {
@@ -36,12 +38,10 @@ PaymentRoute.post("/payment/verify-payment", verifyToken, async (req, res) => {
       body,
       RAZORPAY_CREDENTIALS.key
     ).toString(CryptoJS.enc.Hex);
-    res.status(200).json({ message: "Success" });
-    return;
+
     if (expectedSignature === razorpay_signature) {
       return getSuccessMessage(res, "Success");
     } else if (razorpay_payment_id) {
-      // console.log("razorpay_payment_id : ", razorpay_payment_id);
       return getSuccessMessage(res, "Success");
     } else {
       return getErrorMessage(res, "Failure");
