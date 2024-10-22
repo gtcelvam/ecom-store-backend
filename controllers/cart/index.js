@@ -127,14 +127,14 @@ class CartDB {
     const connection = await this.conn();
     try {
       const { userId, productId } = req.body;
-      await connection.query(DELETE_PRODUCT_ID_FROM_JSON, [
-        productId,
-        userId,
-        productId,
-      ]);
+      await connection.query(DELETE_PRODUCT_ID_FROM_JSON, [productId, userId]);
 
-      const [data] = await getCartDetailsByUserId(connection, userId);
-      getSuccessMessage(res, data);
+      const response = {
+        status: true,
+        id: productId,
+      };
+
+      getSuccessMessage(res, response);
     } catch (error) {
       console.log("Delete Product id from cart error : ", error);
       getErrorMessage(res, error);

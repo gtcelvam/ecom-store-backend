@@ -15,7 +15,7 @@ const CHECK_IF_CART_AVAILABLE_BY_USER =
 
 const DELETE_PRODUCT_ID_FROM_JSON = `UPDATE carts
 SET productId = JSON_REMOVE(productId, JSON_UNQUOTE(JSON_SEARCH(productId, 'one', ?))) 
-WHERE userId = ? AND JSON_SEARCH(productId, 'one', ?) IS NOT NULL`;
+WHERE userId = ?`;
 
 const CLEAR_CART_BY_USERID = `UPDATE carts SET productId = ? WHERE userid = ?`;
 
