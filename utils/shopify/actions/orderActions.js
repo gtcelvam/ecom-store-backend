@@ -10,4 +10,19 @@ const createOrder = async (orderData) => {
   }
 };
 
-module.exports = { createOrder };
+const getOrderDetailsByEmail = async (email, limit = 10) => {
+  try {
+    const data = await shopify.order.list({
+      email,
+      status: "any",
+      limit,
+      fields: "id,email,line_items,total_price,created_at",
+    });
+    return data;
+  } catch (error) {
+    console.log("Get Order Details By Email Error : ", error);
+    throw new Error(error);
+  }
+};
+
+module.exports = { createOrder, getOrderDetailsByEmail };
