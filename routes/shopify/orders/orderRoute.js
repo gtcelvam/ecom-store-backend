@@ -3,7 +3,10 @@ const {
   getSuccessMessage,
   getErrorMessage,
 } = require("../../../utils/helpers");
-const { createOrder } = require("../../../utils/shopify/actions/orderActions");
+const {
+  createOrder,
+  getOrderDetailsByEmail,
+} = require("../../../utils/shopify/actions/orderActions");
 
 const OrderRoute = require("express").Router();
 
@@ -15,6 +18,16 @@ OrderRoute.post("/order", verifyToken, async (req, res, next) => {
     getSuccessMessage(res, result);
   } catch (error) {
     // getErrorMessage(res, error);
+    next(error);
+  }
+});
+
+OrderRoute.post("/order-details", verifyToken, async (req, res, next) => {
+  try {
+    const email = req.body.email;
+    const result = await getOrderDetailsByEmail(email);
+    getSuccessMessage(res, result);
+  } catch (error) {
     next(error);
   }
 });
