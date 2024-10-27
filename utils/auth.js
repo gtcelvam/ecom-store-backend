@@ -4,7 +4,7 @@ const { JWT_AUTH_TOKEN, STATUS_CODES } = require("./constants");
 const { Bad_Request, UnAuthorized, Not_Found, Forbidden } = STATUS_CODES;
 
 const option = {
-  expiresIn: "1d",
+  expiresIn: "7d",
 };
 
 const generateToken = (data) => {
