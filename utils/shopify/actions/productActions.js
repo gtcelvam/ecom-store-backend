@@ -42,6 +42,20 @@ const getProductListByIds = async (list) => {
   }
 };
 
+const getProductsBySearch = async (keyword) => {
+  try {
+    const productList = await shopify.product.list({
+      limit: 100,
+    });
+    const filteredProduct = productList.filter((item) => {
+      if (item.title.toLowerCase().includes(keyword.toLowerCase())) return item;
+    });
+    return filteredProduct;
+  } catch (error) {
+    console.log("Get Product List By Search Error : ", error);
+  }
+};
+
 const updateProductById = async (id, payload) => {
   try {
     const updateProductData = await shopify.product.update(id, payload);
@@ -79,6 +93,7 @@ module.exports = {
   getProduct,
   getProductById,
   getProductListByIds,
+  getProductsBySearch,
   updateProductById,
   deleteProduct,
   deleteAllProduct,
