@@ -11,6 +11,7 @@ const {
   updateProductById,
   deleteAllProduct,
   getProductById,
+  getProductsBySearch,
 } = require("../../../utils/shopify/actions/productActions");
 
 //create product
@@ -22,6 +23,17 @@ ProductRoute.post("/products", async (req, res) => {
   } catch (error) {
     console.log("Product Route Add Error : ", error);
     getErrorMessage(res);
+  }
+});
+
+ProductRoute.get("/products/search/:keyword", async (req, res) => {
+  try {
+    const keyword = req.params.keyword;
+    const result = await getProductsBySearch(keyword);
+    getSuccessMessage(res, result);
+  } catch (error) {
+    console.log("Product By Search Route Get Error : ", error);
+    getErrorMessage(res, error);
   }
 });
 
