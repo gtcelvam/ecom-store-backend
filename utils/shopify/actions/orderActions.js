@@ -25,4 +25,34 @@ const getOrderDetailsByEmail = async (email, limit = 10) => {
   }
 };
 
-module.exports = { createOrder, getOrderDetailsByEmail };
+const getOrderDetailsById = async (id) => {
+  try {
+    const data = await shopify.order.get(id);
+    return data;
+  } catch (error) {
+    console.log("Get Order Details By id Error : ", error);
+    throw new Error(error);
+  }
+};
+
+const sendOrderDetailsInEmailById = async (id) => {
+  try {
+    const orderDetails = await getOrderDetailsById(id);
+
+    if (!orderDetails?.email) return;
+    const data = await shopify.order.update(id, {
+      email: orderDetails?.email,
+      send_receipt: true,
+    });
+    console.log("data : ", data);
+  } catch (error) {
+    console.log("Send Order Details by Email Error : ", error);
+  }
+};
+
+module.exports = {
+  createOrder,
+  getOrderDetailsById,
+  getOrderDetailsByEmail,
+  sendOrderDetailsInEmailById,
+};
