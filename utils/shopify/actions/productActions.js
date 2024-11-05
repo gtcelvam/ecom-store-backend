@@ -47,8 +47,10 @@ const getProductsBySearch = async (keyword) => {
     const productList = await shopify.product.list({
       limit: 100,
     });
-    const filteredProduct = productList.filter((item) => {
-      if (item.title.toLowerCase().includes(keyword.toLowerCase())) return item;
+    const filteredProduct = [];
+    productList.forEach((item) => {
+      if (item.title.toLowerCase().includes(keyword.toLowerCase()))
+        filteredProduct.push({ id: item.id, title: item.title });
     });
     return filteredProduct;
   } catch (error) {
