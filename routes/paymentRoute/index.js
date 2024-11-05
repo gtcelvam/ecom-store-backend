@@ -45,7 +45,8 @@ PaymentRoute.post("/payment/verify-payment", verifyToken, async (req, res) => {
       body,
       RAZORPAY_CREDENTIALS.key
     ).toString(CryptoJS.enc.Hex);
-
+    console.log("orderId : ", orderId);
+    await sendOrderDetailsInEmailById(orderId);
     if (expectedSignature === razorpay_signature) {
       getSuccessMessage(res, "Success");
     } else if (razorpay_payment_id) {
@@ -53,7 +54,6 @@ PaymentRoute.post("/payment/verify-payment", verifyToken, async (req, res) => {
     } else {
       getErrorMessage(res, "Failure");
     }
-    await sendOrderDetailsInEmailById(orderId);
   } catch (error) {
     console.log("Verify Payment Error : ", error);
     getErrorMessage(res, "something went wrong!");
