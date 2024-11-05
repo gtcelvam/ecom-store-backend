@@ -45,7 +45,7 @@ PaymentRoute.post("/payment/verify-payment", verifyToken, async (req, res) => {
       body,
       RAZORPAY_CREDENTIALS.key
     ).toString(CryptoJS.enc.Hex);
-    console.log("orderId : ", orderId);
+
     await sendOrderDetailsInEmailById(orderId);
     if (expectedSignature === razorpay_signature) {
       getSuccessMessage(res, "Success");
