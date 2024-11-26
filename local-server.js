@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const cors = require("cors");
 
 //Local depdencies
 const { PORT_NUM } = require("./utils/constants");
@@ -14,10 +13,11 @@ const CartRoute = require("./routes/cartRoute");
 const SQLRoute = require("./routes/sqlRoute");
 const PaymentRoute = require("./routes/paymentRoute");
 const OrderRoute = require("./routes/shopify/orders/orderRoute");
+const corsConfig = require("./utils/cors");
 
 //configs
 app.use(express.json());
-app.use(cors());
+app.use(corsConfig);
 
 //routes
 app.use("/api", ProductRoute);
