@@ -1,4 +1,5 @@
 const PORT_NUM = process.env.port || process.env.PORT_NUM;
+const FED_BASE_URL = process.env.FED_BASE_URL;
 
 //AUTH Tokens
 const JWT_AUTH_TOKEN = process.env.JWT_AUTH_TOKEN;
@@ -57,6 +58,7 @@ const STATUS_CODES = {
 
 module.exports = {
   PORT_NUM,
+  FED_BASE_URL,
   JWT_AUTH_TOKEN,
   SHOPIFY_API_KEY,
   SHOPIFY_SECRET_KEY,

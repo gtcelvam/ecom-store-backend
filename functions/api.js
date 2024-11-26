@@ -3,7 +3,6 @@ const express = require("express");
 const serverless = require("serverless-http");
 const app = express();
 const router = express.Router();
-const cors = require("cors");
 
 //Local depdencies
 const { ProductRoute } = require("../routes/shopify/products/route");
@@ -15,10 +14,11 @@ const UserRoute = require("../routes/userRoute");
 const CartRoute = require("../routes/cartRoute");
 const PaymentRoute = require("../routes/paymentRoute");
 const OrderRoute = require("../routes/shopify/orders/orderRoute");
+const corsConfig = require("../utils/cors");
 
 //configs
 app.use(express.json());
-app.use(cors());
+app.use(corsConfig);
 
 //routes
 router.get("/hello", (req, res) => res.send("Hello World!"));
