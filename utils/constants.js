@@ -20,6 +20,19 @@ const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_CERTIFICATE = process.env.DB_CERTIFICATE.trim();
 const DB_CON_URI = `mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST_URL}:${DB_PORT_NUM}/${DB_NAME}?ssl-mode=REQUIRED`;
 
+//OAuth Configs
+const PASSPORT_SESSION_KEY = process.env.PASSPORT_SESSION_KEY;
+const OAUTH_KEYS = {
+  google: "google",
+};
+
+const OAUTH_CONFIGS = {
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    secret: process.env.GOOGLE_CLIENT_SECRET,
+  },
+};
+
 //Netlify
 const NETLIFY_END_POINT = "/.netlify/functions/api";
 
@@ -56,6 +69,8 @@ const STATUS_CODES = {
   },
 };
 
+const ACCESS_TOKEN = "access-token";
+
 module.exports = {
   PORT_NUM,
   FED_BASE_URL,
@@ -65,6 +80,7 @@ module.exports = {
   SHOPIFY_API_TOKEN,
   SHOPIFY_API_SCOPES,
   SHOPIFY_SHOP_NAME,
+  PASSPORT_SESSION_KEY,
   DB_HOST_URL,
   DB_NAME,
   DB_USERNAME,
@@ -72,6 +88,9 @@ module.exports = {
   DB_PASSWORD,
   DB_CON_URI,
   DB_CERTIFICATE,
+  OAUTH_KEYS,
+  OAUTH_CONFIGS,
+  ACCESS_TOKEN,
   NETLIFY_END_POINT,
   STATUS_CODES,
   RAZORPAY_CREDENTIALS,

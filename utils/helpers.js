@@ -73,6 +73,9 @@ const handleCheckPassword = async (password, encryptedPassword) => {
 
 const handleGenerateUUID = () => uuidv4();
 
+const handleDeleteMultipleKeys = (obj, keys) =>
+  keys.forEach((element) => delete obj[element]);
+
 module.exports = {
   getSanitizedCreateProduct,
   getSanitizedCreateCollection,
@@ -84,4 +87,5 @@ module.exports = {
   handleEncryptPassword,
   handleCheckPassword,
   handleGenerateUUID,
+  handleDeleteMultipleKeys,
 };
