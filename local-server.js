@@ -1,9 +1,11 @@
 require("dotenv").config();
 const express = require("express");
+const passport = require("passport");
+const session = require("express-session");
 const app = express();
 
 //Local depdencies
-const { PORT_NUM } = require("./utils/constants");
+const { PORT_NUM, PASSPORT_SESSION_KEY } = require("./utils/constants");
 const { ProductRoute } = require("./routes/shopify/products/route");
 const {
   CollectionRoute,
@@ -14,10 +16,23 @@ const SQLRoute = require("./routes/sqlRoute");
 const PaymentRoute = require("./routes/paymentRoute");
 const OrderRoute = require("./routes/shopify/orders/orderRoute");
 const corsConfig = require("./utils/cors");
+require("./utils/passport");
 
 //configs
 app.use(express.json());
 app.use(corsConfig);
+
+app.use(
+  session({
+    secret: PASSPORT_SESSION_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: true }, // Use `true` for HTTPS
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 //routes
 app.use("/api", ProductRoute);

@@ -1,16 +1,23 @@
+const passport = require("passport");
 const { handleDBConnection } = require("../../models/db");
 const {
   getUserByIdAction,
   getUserByEmailAction,
 } = require("../../utils/actions/users");
 const { generateToken } = require("../../utils/auth");
-const { STATUS_CODES } = require("../../utils/constants");
+const {
+  STATUS_CODES,
+  FED_BASE_URL,
+  OAUTH_KEYS,
+  ACCESS_TOKEN,
+} = require("../../utils/constants");
 const {
   getSuccessMessage,
   getErrorMessage,
   getAuthSuccessMessage,
   handleEncryptPassword,
   handleCheckPassword,
+  handleDeleteMultipleKeys,
 } = require("../../utils/helpers");
 const {
   GET_ALL_USERS,
@@ -173,6 +180,51 @@ class UserDB {
     } catch (error) {
       console.log("Login Handler Error : ", error);
       getErrorMessage(res);
+    }
+  };
+
+  //get google user
+  getGoogleUser = passport.authenticate("google", {
+    scope: ["profile", "email"],
+  });
+
+  //google user callback
+  handleGoogleCallback = async (req, res) => {
+    try {
+      const { name, email } = req.user["_json"];
+      const connection = await this.conn();
+      const userData = await getUserByEmailAction(connection, email);
+      /* If user doesn't exist */
+      if (!Boolean(userData.length)) {
+        const payload = {
+          name,
+          email,
+          source: OAUTH_KEYS.google,
+        };
+        const result = await connection.query(INSERT_NEW_USER, payload);
+        const id = result[0]?.insertId;
+        payload["id"] = id;
+        handleDeleteMultipleKeys(payload, ["password", "source"]);
+        const token = generateToken(payload);
+        return res.redirect(FED_BASE_URL + "/?token=" + token + "&src=google");
+      }
+      handleDeleteMultipleKeys(userData[0], ["password", "source", "cartId"]);
+      const token = generateToken(userData[0]);
+      res.cookie(ACCESS_TOKEN, token, {
+        secure: true, // Sent only over HTTPS
+        sameSite: "Strict", // Prevent cross-site requests
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day in milliseconds
+      });
+      res.redirect(FED_BASE_URL);
+      if (!userData[0].source) {
+        await connection.query(UPDATE_USER_BY_ID, [
+          { source: "google" },
+          userData[0].id,
+        ]);
+        return;
+      }
+    } catch (error) {
+      console.log("Handle Google Callback : ", error);
     }
   };
 }
