@@ -2,6 +2,8 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const {
   OAUTH_CONFIGS: { google },
+  FED_BASE_URL,
+  NETLIFY_END_POINT,
 } = require("../constants");
 
 const googleCB = (accessToken, refreshToken, profile, callback) => {
@@ -18,7 +20,9 @@ passport.use(
     {
       clientID: google.clientId,
       clientSecret: google.secret,
-      callbackURL: "/api/user/google/callback",
+      callbackURL: FED_BASE_URL.includes("localhost")
+        ? "/api/user/google/callback"
+        : NETLIFY_END_POINT + "/user/google/callback",
       scope: ["profile", "email"],
     },
     googleCB
