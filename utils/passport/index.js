@@ -22,7 +22,7 @@ passport.use(
       clientSecret: google.secret,
       callbackURL: FED_BASE_URL.includes("localhost")
         ? "/api/user/google/callback"
-        : NETLIFY_END_POINT + "/user/google/callback",
+        : "/api/user/google/callback",
       scope: ["profile", "email"],
     },
     googleCB
